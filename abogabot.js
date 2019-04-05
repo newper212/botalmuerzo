@@ -292,6 +292,7 @@ class AbogaBot {
             // Show menu if no response sent
             if (!turnContext.responded) {
                 console.log("no responde");
+                await turnContext.sendActivity('Bienvenido al bot de RRHH');
                 const userName = await this.userName.get(dc.context, null);
                 console.log("usuario");
                 console.log(userName);
