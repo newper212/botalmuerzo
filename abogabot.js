@@ -282,7 +282,7 @@ class AbogaBot {
 
            //const resultado = await dc.continueDialog();
            console.log("valor in");
-           console.log(resultado);
+           //console.log(resultado);
 
             // Continue the current dialog
             if (!turnContext.responded) {
