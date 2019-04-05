@@ -306,29 +306,15 @@ class AbogaBot {
                         await dc.beginDialog(INICIO);
                 }
             }
-        } else {
+        } else  if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
 
             console.log("entro a actividad");
-            console.log(turnContext.activity.type);
             // Do we have any new members added to the conversation?
             if (turnContext.activity.membersAdded.length !== 0) {
                 // Iterate over all new members added to the conversation
                 for (let idx in turnContext.activity.membersAdded) {
-                    // Greet anyone that was not the target (recipient) of this message.
-                    // Since the bot is the recipient for events from the channel,
-                    // context.activity.membersAdded === context.activity.recipient.Id indicates the
-                    // bot was added to the conversation, and the opposite indicates this is a user.
                     if (turnContext.activity.membersAdded[idx].id !== turnContext.activity.recipient.id) {
-                       // const dc2 = await this.dialogs.createContext(turnContext);
-                        // Send a "this is what the bot does" message to this user.
-                        // turnContext.sendActivity('Bienvenido al chat del comedor de Falabella');
-                      /* await turnContext.sendActivity('Bienvenido al bot de RRHH');
-                        return await dc.prompt(MENU_PROMPT, {
-                            prompt: 'Elija un dia del menu',
-                            retryPrompt: 'Disculpa, Por favor elige una opcion de la lista.',
-                            choices: CardFactory.actions([{title:"1",value:"Lunes"},{title:"2",value:"Martes"},
-                            {title:"3",value:"Miercoles"},{title:"4",value:"Jueves"},{title:"5",value:"Viernes"}])
-                        });*/
+                    
                         await turnContext.sendActivity('Bienvenido al bot de RRHH');
                        
                         await dc.beginDialog(INICIO);
