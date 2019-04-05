@@ -280,7 +280,7 @@ class AbogaBot {
             // Create dialog context
            // const dc = await this.dialogs.createContext(turnContext);
 
-           const resultado = await dc.continueDialog();
+           //const resultado = await dc.continueDialog();
            console.log("valor in");
            console.log(resultado);
 
