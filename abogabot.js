@@ -315,7 +315,7 @@ class AbogaBot {
                 for (let idx in turnContext.activity.membersAdded) {
                     if (turnContext.activity.membersAdded[idx].id !== turnContext.activity.recipient.id) {
                     
-                        await turnContext.sendActivity('Bienvenido al bot de RRHH');
+                        await turnContext.sendActivity('Bienvenido al bot de RRHH2');
                        
                         await dc.beginDialog(INICIO);
                     }
