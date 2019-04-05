@@ -336,6 +336,11 @@ class AbogaBot {
                        
                     await dc.beginDialog(INICIO);
                 }
+                
+            }
+            else
+            {
+                await turnContext.sendActivity('Eevento: '+turnContext.activity.type);
             }
 
         // Save changes to the user name.
