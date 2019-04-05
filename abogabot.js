@@ -301,12 +301,15 @@ class AbogaBot {
                     //await dc.beginDialog("BIENVENIDO");
                 } else {
                    // await dc.beginDialog(WHO_ARE_YOU);
-                   //BienvenidaBot(dc);
-                  //await dc.beginDialog(INICIO);
+                   await turnContext.sendActivity('Bienvenido al bot de RRHH');
+                       
+                        await dc.beginDialog(INICIO);
                 }
             }
-        } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
+        } else {
+
             console.log("entro a actividad");
+            console.log(turnContext.activity.type);
             // Do we have any new members added to the conversation?
             if (turnContext.activity.membersAdded.length !== 0) {
                 // Iterate over all new members added to the conversation
