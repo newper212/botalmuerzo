@@ -338,7 +338,7 @@ class AbogaBot {
                 }
                 
             }
-            else
+            else if (turnContext.activity.type  === ActivityTypes.Event)
             {
                 await turnContext.sendActivity('Eevento: '+turnContext.activity.type);
             }
