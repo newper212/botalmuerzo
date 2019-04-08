@@ -11,6 +11,8 @@
   "dependencies": {
     "botbuilder": "^4.3.4",
     "botbuilder-dialogs": "^4.3.4",
+    "moment": "^2.24.0",
+    "mssql": "^5.0.5",
     "restify": "^8.2.0"
   }
 }

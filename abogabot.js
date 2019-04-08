@@ -1,7 +1,10 @@
+const moment = require('moment');
 const {ActivityTypes} =require("botbuilder");
 const { BotFrameworkAdapter, UserState, MemoryStorage,ConversationState,CardFactory } = require('botbuilder');
 
 const {ChoicePrompt, DialogSet, TextPrompt, WaterfallDialog ,ListStyle} = require('botbuilder-dialogs');
+
+const query=require('./querys');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
 const USER_NAME_PROP = 'user_name';
@@ -92,6 +95,8 @@ class AbogaBot {
     }
 
 
+
+
     async promptContinuar(dc) {
 
         return await dc.prompt(CONTINUAR_PROMPT, {
@@ -106,9 +111,30 @@ class AbogaBot {
 
     async askForOpcionSemanal(dc)
     {
-        
-        
-        console.log('dsdsd');
+        console.log('regresa al inicio');
+    /*    var now = moment();
+var inicio = moment(now).startOf('week').isoWeekday(1);
+var final = moment(now).startOf('week').isoWeekday(5);
+var monday = now.clone().weekday(1);
+var friday = now.clone().weekday(5);
+var isNowWeekday = now.isBetween(monday, friday, null, '[]');
+
+console.log(`beg: ${inicio}`);
+console.log(`fin: ${final}`);
+console.log(`now: ${now}`);
+console.log(`monday: ${monday}`);
+console.log(`friday: ${friday}`);
+console.log(`is now between monday and friday: ${isNowWeekday}`);
+*/
+console.log("valor de continuar: "+dc.result.index);
+var now =  moment();
+var inicio =  moment(now).startOf('week').isoWeekday((dc.result.index)+1).format("DD/MM/YYYY");
+console.log(inicio);
+var tarjeta=await query.llamardia(inicio);
+
+console.log('datos tarjeta: ');
+console.log(tarjeta);
+console.log(`beg: ${inicio}`);
         await dc.context.sendActivity({ attachments: [this.createHeroCard(),this.createHeroCard2()] });
         return await dc.prompt(CONTINUAR_PROMPT, {
             prompt: 'Desea ver otros menus?',
@@ -180,6 +206,7 @@ class AbogaBot {
 
     async MenuSeguirBot(dc)
     {
+        
         // dc.prompt("SALUDOS",'Bienvenido al bot de RRHH');
        // dc.context.sendActivity('Bienvenido al bot de RRHH');
          return await dc.prompt(MENU_PROMPT, {

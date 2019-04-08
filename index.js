@@ -29,6 +29,7 @@ server.listen(process.env.port||process.env.PORT||3978,()=>
 server.post('/api/messages',(req,res)=>{
     adapter.processActivity(req,res,async(turncontext)=>{
        
+
        // await bot.onTurn(turncontext);
        await abogbot.onTurn(turncontext);
     });
