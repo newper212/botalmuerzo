@@ -265,12 +265,37 @@ console.log(ArrayHeroCard.length);
 
     async askForDNI(dc)
     {
+
         
         console.log(dc.result.index);
         if(dc.result.index==0)
         {
+            var now =  moment();
+            var inicio =  moment(now).format("DD/MM/YYYY");
+        console.log('dia actual');
+console.log(inicio);
+var tarjeta=await query.llamardia(inicio);
+
+var ArrayHeroCard = [];
+var self=this;
+var contador=1;
+//console.log(ArrayHeroCard);
+tarjeta['recordset'].forEach(function(value){
+    console.log(contador);
+   // console.log(value['Id']);
+    //console.log(value['titulo']);
+    ArrayHeroCard.push(self.createHeroCard(contador,value['titulo'],value['descripcion'],value['url']));
+    contador++;
+  });
+
+
         console.log('dsdsd');
-        await dc.context.sendActivity({ attachments: [this.createHeroCard(),this.createHeroCard2()] });
+        //await dc.context.sendActivity({ attachments: [this.createHeroCard(),this.createHeroCard2()] });
+        if(ArrayHeroCard.length>0)
+        await dc.context.sendActivity({ attachments: ArrayHeroCard });
+        else
+        await dc.context.sendActivity('No se han registrado menus para este dia');
+
         return await dc.prompt(CONTINUAR_PROMPT, {
             prompt: 'Desea ver otros menus?',
             retryPrompt: 'Disculpa, Por favor elige una opcion de la lista.',
@@ -372,23 +397,6 @@ console.log(ArrayHeroCard.length);
             }
         }
 
-             else if (turnContext.activity.type  === ActivityTypes.ContactRelationUpdate)
-            {
-                console.log(turnContext.activity.type);
-                console.log('segundo alor: ');
-                console.log(turnContext.activity.action);
-                if(turnContext.activity.action === "add")
-                {
-                    await turnContext.sendActivity('Bienvenido al bot de RRHH');
-                       
-                    await dc.beginDialog(INICIO);
-                }
-                
-            }
-            else if (turnContext.activity.type  === ActivityTypes.Event)
-            {
-                await turnContext.sendActivity('Eevento: '+turnContext.activity.type);
-            }
 
         // Save changes to the user name.
         await this.userState.saveChanges(turnContext);
