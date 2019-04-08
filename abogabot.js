@@ -101,7 +101,7 @@ class AbogaBot {
 
         return await dc.prompt(CONTINUAR_PROMPT, {
             prompt: 'Desea ver otros menus?',
-            retryPrompt: 'Disculpa, Por favor elige una opcion de la lista.',
+            retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             choices: CardFactory.actions([{title:"1",value:"SI"},{title:"2",value:"NO"}])
         });
 
@@ -137,7 +137,7 @@ var self=this;
 var contador=1;
 //console.log(ArrayHeroCard);
 tarjeta['recordset'].forEach(function(value){
-    console.log(contador);
+    //console.log(contador);
    // console.log(value['Id']);
     //console.log(value['titulo']);
     ArrayHeroCard.push(self.createHeroCard(contador,value['titulo'],value['descripcion'],value['url']));
@@ -145,16 +145,16 @@ tarjeta['recordset'].forEach(function(value){
   });
 
 
-console.log('datos tarjeta: ');
-console.log(ArrayHeroCard);
+//console.log('datos tarjeta: ');
+//console.log(ArrayHeroCard);
 //console.log(tarjeta['recordset'].length);
 //console.log(tarjeta['recordset']);
-console.log(`beg: ${inicio}`);
-console.log(ArrayHeroCard.length);
+//console.log(`beg: ${inicio}`);
+//console.log(ArrayHeroCard.length);
         if(ArrayHeroCard.length>0)
         await dc.context.sendActivity({ attachments: ArrayHeroCard });
         else
-        await dc.context.sendActivity('No se han registrado menus para este dia');
+        await dc.context.sendActivity('No se han registrado menus para este día');
         
         return await dc.prompt(CONTINUAR_PROMPT, {
             prompt: 'Desea ver otros menus?',
@@ -181,9 +181,9 @@ console.log(ArrayHeroCard.length);
         // dc.prompt("SALUDOS",'Bienvenido al bot de RRHH');
        // dc.context.sendActivity('Bienvenido al bot de RRHH');
          return await dc.prompt(MENU_PROMPT, {
-            prompt: 'Por favor elige una opcion',
-            retryPrompt: 'Disculpa, Por favor elige una opcion de la lista.',
-            choices: CardFactory.actions([{title:"1",value:"Menu del Dia"},{title:"2",value:"Menu de la Semana"}])
+            prompt: 'Por favor, elige una opción',
+            retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
+            choices: CardFactory.actions([{title:"1",value:"Menú del Día"},{title:"2",value:"Menú de la Semana"}])
         });
 
     }
@@ -230,8 +230,8 @@ console.log(ArrayHeroCard.length);
         // dc.prompt("SALUDOS",'Bienvenido al bot de RRHH');
        // dc.context.sendActivity('Bienvenido al bot de RRHH');
          return await dc.prompt(MENU_PROMPT, {
-            prompt: 'Elija un dia del menu',
-            retryPrompt: 'Disculpa, Por favor elige una opcion de la lista.',
+            prompt: 'Elija un día del menú',
+            retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             choices: CardFactory.actions([{title:"1",value:"Lunes"},{title:"2",value:"Martes"},
             {title:"3",value:"Miercoles"},{title:"4",value:"Jueves"},{title:"5",value:"Viernes"}])
         });
@@ -244,8 +244,8 @@ console.log(ArrayHeroCard.length);
         // dc.prompt("SALUDOS",'Bienvenido al bot de RRHH');
        // dc.context.sendActivity('Bienvenido al bot de RRHH');
          return await dc.prompt(MENU_PROMPT, {
-            prompt: 'Elija un dia del menu',
-            retryPrompt: 'Disculpa, Por favor elige una opcion de la lista.',
+            prompt: 'Elija un día del menú',
+            retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             choices: CardFactory.actions([{title:"1",value:"Lunes"},{title:"2",value:"Martes"},
             {title:"3",value:"Miercoles"},{title:"4",value:"Jueves"},{title:"5",value:"Viernes"},
             {title:"6",value:"Sabado"},{title:"5",value:"Domingo"}])
@@ -298,8 +298,8 @@ tarjeta['recordset'].forEach(function(value){
         await dc.context.sendActivity('No se han registrado menus para este dia');
 
         return await dc.prompt(CONTINUAR_PROMPT, {
-            prompt: 'Desea ver otros menus?',
-            retryPrompt: 'Disculpa, Por favor elige una opcion de la lista.',
+            prompt: 'Desea ver otros menús?',
+            retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             choices: CardFactory.actions([{title:"1",value:"SI"},{title:"2",value:"NO"}])
         });
         }
@@ -322,8 +322,8 @@ tarjeta['recordset'].forEach(function(value){
     
         // Prompt for location.
         return await stepContext.prompt(MENU_PROMPT, {
-            prompt: 'Por favor elige una opcion',
-            retryPrompt: 'Disculpa, Por favor elige una opcion de la lista.',
+            prompt: 'Por favor, elige una opción',
+            retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             choices: ['Menu del dia', 'Menu de la semana']
         });
 
@@ -395,7 +395,7 @@ tarjeta['recordset'].forEach(function(value){
                        
                         await dc.beginDialog(INICIO);
                     }
-                }
+                }node i
             }
         }*/
 
