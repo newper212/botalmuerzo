@@ -247,7 +247,8 @@ console.log(ArrayHeroCard.length);
             prompt: 'Elija un dia del menu',
             retryPrompt: 'Disculpa, Por favor elige una opcion de la lista.',
             choices: CardFactory.actions([{title:"1",value:"Lunes"},{title:"2",value:"Martes"},
-            {title:"3",value:"Miercoles"},{title:"4",value:"Jueves"},{title:"5",value:"Viernes"}])
+            {title:"3",value:"Miercoles"},{title:"4",value:"Jueves"},{title:"5",value:"Viernes"},
+            {title:"6",value:"Sabado"},{title:"5",value:"Domingo"}])
         });
 
     }
