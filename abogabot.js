@@ -128,14 +128,34 @@ console.log(`is now between monday and friday: ${isNowWeekday}`);
 */
 console.log("valor de continuar: "+dc.result.index);
 var now =  moment();
-var inicio =  moment(now).startOf('week').isoWeekday((dc.result.index)+1).format("DD/MM/YYYY");
+var inicio =  moment(now).isoWeekday((dc.result.index)+1).format("DD/MM/YYYY");
 console.log(inicio);
 var tarjeta=await query.llamardia(inicio);
 
+var ArrayHeroCard = [];
+var self=this;
+var contador=1;
+//console.log(ArrayHeroCard);
+tarjeta['recordset'].forEach(function(value){
+    console.log(contador);
+   // console.log(value['Id']);
+    //console.log(value['titulo']);
+    ArrayHeroCard.push(self.createHeroCard(contador,value['titulo'],value['descripcion'],value['url']));
+    contador++;
+  });
+
+
 console.log('datos tarjeta: ');
-console.log(tarjeta);
+console.log(ArrayHeroCard);
+//console.log(tarjeta['recordset'].length);
+//console.log(tarjeta['recordset']);
 console.log(`beg: ${inicio}`);
-        await dc.context.sendActivity({ attachments: [this.createHeroCard(),this.createHeroCard2()] });
+console.log(ArrayHeroCard.length);
+        if(ArrayHeroCard.length>0)
+        await dc.context.sendActivity({ attachments: ArrayHeroCard });
+        else
+        await dc.context.sendActivity('No se han registrado menus para este dia');
+        
         return await dc.prompt(CONTINUAR_PROMPT, {
             prompt: 'Desea ver otros menus?',
             retryPrompt: 'Disculpa, Por favor elige una opcion de la lista.',
@@ -344,7 +364,7 @@ console.log(`beg: ${inicio}`);
                 for (let idx in turnContext.activity.membersAdded) {
                     if (turnContext.activity.membersAdded[idx].id !== turnContext.activity.recipient.id) {
                     
-                        await turnContext.sendActivity('Bienvenido al bot de RRHH2');
+                        await turnContext.sendActivity('Bienvenido al bot de RRHH');
                        
                         await dc.beginDialog(INICIO);
                     }
@@ -359,7 +379,7 @@ console.log(`beg: ${inicio}`);
                 console.log(turnContext.activity.action);
                 if(turnContext.activity.action === "add")
                 {
-                    await turnContext.sendActivity('Bienvenido al bot de RRHH2');
+                    await turnContext.sendActivity('Bienvenido al bot de RRHH');
                        
                     await dc.beginDialog(INICIO);
                 }
@@ -390,19 +410,12 @@ console.log(`beg: ${inicio}`);
  */
     }
 
-    createHeroCard() {
+    createHeroCard(posicion,titulo,descripcion,url) {
         return CardFactory.heroCard(
-            'Menu 1: Arroz con Pollo',
-            'Arroz con pollo, tequenhos y gelatina de postre',
-            CardFactory.images(['https://images-gmi-pmc.edge-generalmills.com/8b79836e-e3b4-4099-bf3b-79a21257b759.jpg'])
-            /* CardFactory.actions([
-                {
-                    type: 'openUrl',
-                    title: 'Get started',
-                    value: 'https://docs.microsoft.com/en-us/azure/bot-service/'
-                }
-            ]) */
-            
+            'Menu ' + posicion+ ': '+ titulo,
+            descripcion,
+            CardFactory.images([url])
+    
         );
     }
     createHeroCard2() {

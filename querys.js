@@ -29,9 +29,9 @@ var dbConfig = {
      req.query("SELECT * FROM almuerzo where Convert(varchar(10),CONVERT(date,fecha,106),103)=@fecha")
      // req.query(`select * from almuerzo`)
       .then(function (recordset) {
-       // console.log(recordset['recordset'][0]['Id']);
+        console.log(recordset['recordset'][0]['titulo']);
       // someVar=recordset;
-       setValue(recordset);
+      // setValue(recordset);
         conn.close();
       })
       // Handle sql statement execution errors
@@ -68,7 +68,6 @@ async function llamardia (dia) {
         console.log('error: '+err);
     }
 }
-
 
 /*
 (async() => {
