@@ -100,7 +100,7 @@ class AbogaBot {
     async promptContinuar(dc) {
 
         return await dc.prompt(CONTINUAR_PROMPT, {
-            prompt: 'Desea ver otros menus?',
+            prompt: 'Desea ver otros menús?',
             retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             choices: CardFactory.actions([{title:"1",value:"SI"},{title:"2",value:"NO"}])
         });
@@ -157,8 +157,8 @@ tarjeta['recordset'].forEach(function(value){
         await dc.context.sendActivity('No se han registrado menus para este día');
         
         return await dc.prompt(CONTINUAR_PROMPT, {
-            prompt: 'Desea ver otros menus?',
-            retryPrompt: 'Disculpa, Por favor elige una opcion de la lista.',
+            prompt: 'Desea ver otros menús?',
+            retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             choices: CardFactory.actions([{title:"1",value:"SI"},{title:"2",value:"NO"}])
         });
        // return await dc.replaceDialog(MENU_SEMANAL);
