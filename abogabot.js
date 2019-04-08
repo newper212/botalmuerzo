@@ -379,7 +379,8 @@ tarjeta['recordset'].forEach(function(value){
                         await dc.beginDialog(INICIO);
                 }
             }
-        } else  if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
+        } 
+        /*else  if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
 
             console.log("entro a actividad");
             console.log(turnContext.activity.type);
@@ -395,7 +396,7 @@ tarjeta['recordset'].forEach(function(value){
                     }
                 }
             }
-        }
+        }*/
 
 
         // Save changes to the user name.
