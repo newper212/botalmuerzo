@@ -100,7 +100,7 @@ class AbogaBot {
     async promptContinuar(dc) {
 
         return await dc.prompt(CONTINUAR_PROMPT, {
-            prompt: 'Desea ver otros menús?',
+            prompt: '¿Quieres ver otros menús?',
             retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             choices: CardFactory.actions([{title:"1",value:"SI"},{title:"2",value:"NO"}])
         });
@@ -157,7 +157,7 @@ tarjeta['recordset'].forEach(function(value){
         await dc.context.sendActivity('No se han registrado menus para este día');
         
         return await dc.prompt(CONTINUAR_PROMPT, {
-            prompt: 'Desea ver otros menús?',
+            prompt: '¿Quieres ver otros menús?',
             retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             choices: CardFactory.actions([{title:"1",value:"SI"},{title:"2",value:"NO"}])
         });
@@ -298,7 +298,7 @@ tarjeta['recordset'].forEach(function(value){
         await dc.context.sendActivity('No se han registrado menus para este dia');
 
         return await dc.prompt(CONTINUAR_PROMPT, {
-            prompt: 'Desea ver otros menús?',
+            prompt: '¿Quieres ver otros menús?',
             retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             choices: CardFactory.actions([{title:"1",value:"SI"},{title:"2",value:"NO"}])
         });
@@ -375,7 +375,7 @@ tarjeta['recordset'].forEach(function(value){
                     //await dc.beginDialog("BIENVENIDO");
                 } else {
                    // await dc.beginDialog(WHO_ARE_YOU);
-                   await turnContext.sendActivity('Bienvenido al bot de RRHH');
+                   await turnContext.sendActivity('Hola, soy Amanda elige una opción del menú');
                        
                         await dc.beginDialog(INICIO);
                 }
@@ -428,21 +428,7 @@ tarjeta['recordset'].forEach(function(value){
     
         );
     }
-    createHeroCard2() {
-        return CardFactory.heroCard(
-            'Menu 2: Lomo Saltado',
-            'Lomo saltado, arroz con leche y mandarina',
-            CardFactory.images(['https://www.comedera.com/wp-content/uploads/2013/05/lomo-saltado-jugoso.jpg'])
-            /* CardFactory.actions([
-                {
-                    type: 'openUrl',
-                    title: 'Get started',
-                    value: 'https://docs.microsoft.com/en-us/azure/bot-service/'
-                }
-            ]) */
-            
-        );
-    }
+  
 
 }
 
