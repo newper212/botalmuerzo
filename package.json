@@ -9,9 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "assert": "^1.4.1",
     "botbuilder": "^4.3.4",
     "botbuilder-dialogs": "^4.3.4",
     "moment": "^2.24.0",
+    "mongodb": "^3.2.3",
     "mssql": "^5.0.5",
     "restify": "^8.2.0"
   }

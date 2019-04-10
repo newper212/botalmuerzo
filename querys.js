@@ -76,4 +76,47 @@ async function llamardia (dia) {
     console.log(esperar)
   })()*/
 
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+ 
+
+const password = encodeURIComponent('I9bQosLNCcDJSnkSJljXgJVFpATM0hRpUUduzBPFHuUPMq4RIyeqa9E2cfMBbnM3PJ9puKhrRHxnN7YrLvob0w==');
+const url = `mongodb://basecomida:${password}@basecomida.documents.azure.com:10255/?ssl=true&replicaSet=globaldb`;
+const dbName = 'rrrhhfalabella';
+
+ function buscarMenuDia(varFecha)
+{
+  var arreglo;
+
+  return new Promise(function(resolve, reject) {
+
+   MongoClient.connect(url,  function(err, client) {
+   
+    const db = client.db(dbName);
+    const collection = db.collection('almuerzo');
+
+     collection.find({fecha: varFecha }).toArray( function(err, docs) {
+          assert.equal(err, null);
+         //console.log(docs)
+         arreglo= docs;
+        // console.log(arreglo);
+         return resolve(arreglo)
+        });
+   
+    client.close();
+  }); 
+// return arreglo;
+  })
+
+}
+/*
+async function test(){
+var prueba=await buscarMenuDia('10/04/2019');
+console.log(prueba);
+//llamado();
+}
+test();
+*/
+
 module.exports.llamardia=llamardia;
+module.exports.buscarMenuDia=buscarMenuDia;

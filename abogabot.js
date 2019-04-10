@@ -266,7 +266,8 @@ tarjeta['recordset'].forEach(function(value){
 
     async askForDNI(dc)
     {
-
+       
+     
         
         console.log(dc.result.index);
         if(dc.result.index==0)
@@ -275,13 +276,13 @@ tarjeta['recordset'].forEach(function(value){
             var inicio =  moment(now).format("DD/MM/YYYY");
         console.log('dia actual');
 console.log(inicio);
-var tarjeta=await query.llamardia(inicio);
+var tarjeta=await query.buscarMenuDia(inicio);
 
 var ArrayHeroCard = [];
 var self=this;
 var contador=1;
 //console.log(ArrayHeroCard);
-tarjeta['recordset'].forEach(function(value){
+tarjeta.forEach(function(value){
     console.log(contador);
    // console.log(value['Id']);
     //console.log(value['titulo']);
