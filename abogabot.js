@@ -202,7 +202,7 @@ tarjeta['recordset'].forEach(function(value){
         }
         else
         {
-            await dc.context.sendActivity('Gracias por visitar el robot de RRHH.');
+            await dc.context.sendActivity('Gracias por visitarme.');
            return await dc.endDialog();
         }
     }
@@ -217,7 +217,7 @@ tarjeta['recordset'].forEach(function(value){
         }
         else
         {
-            await dc.context.sendActivity('Gracias por visitar el robot de RRHH.');
+            await dc.context.sendActivity('Gracias por visitarme.');
            return await dc.endDialog();
         }
     }
