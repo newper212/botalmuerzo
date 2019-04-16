@@ -178,6 +178,8 @@ tarjeta['recordset'].forEach(function(value){
 
     async WelcometoBot(dc)
     {
+
+      
         // dc.prompt("SALUDOS",'Bienvenido al bot de RRHH');
        // dc.context.sendActivity('Bienvenido al bot de RRHH');
          return await dc.prompt(MENU_PROMPT, {
@@ -346,18 +348,31 @@ tarjeta.forEach(function(value){
         await step.endDialog();
     }
 
+    async addDelayStep() {
+        //console.log('timer start--let's wait');
+        await timeout(13000);
+        console.log('timer end--let');
+       // return step.beginDialog(SOME_OTHER_DIALOG);
+    }
+
+
+
     async onTurn(turnContext)
     {
         const dc = await this.dialogs.createContext(turnContext);
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         if (turnContext.activity.type === ActivityTypes.Message) {
+            console.log('cantidad ');
+            //console.log(turnContext.activity.membersAdded.length);
+            console.log('------------------------');
+            console.log(turnContext);
             // Create dialog context
            // const dc = await this.dialogs.createContext(turnContext);
 
            //const resultado = await dc.continueDialog();
            console.log("valor in");
            //console.log(resultado);
-
+        
             // Continue the current dialog
             if (!turnContext.responded) {
                 await dc.continueDialog();
@@ -366,7 +381,9 @@ tarjeta.forEach(function(value){
             // Show menu if no response sent
             if (!turnContext.responded) {
                 console.log("no responde");
+                //console.log(turnContext);
                 //await turnContext.sendActivity('Bienvenido al bot de RRHH4');
+                
                 const userName = await this.userName.get(dc.context, null);
                 console.log("usuario");
                 console.log(userName);
@@ -376,11 +393,16 @@ tarjeta.forEach(function(value){
                     //await dc.beginDialog("BIENVENIDO");
                 } else {
                    // await dc.beginDialog(WHO_ARE_YOU);
+                
+                  // savedAddress = session.message.address;
+                   //console.log(dc);
                    await turnContext.sendActivity('Hola, soy Amanda elige una opción del menú');
                        
                         await dc.beginDialog(INICIO);
                 }
             }
+
+            //await addDelayStep();
         } 
         /*else  if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
 

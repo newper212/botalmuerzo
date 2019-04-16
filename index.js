@@ -38,25 +38,4 @@ server.post('/api/messages',(req,res)=>{
 
 
 
-var menuItems = {
-    //this menu item will indicate that the user has completed their order
-    "Done - Check Out":{
-        title: "Check Out",
-        price: 0
-    },
-    "Large Pepperoni Pizza  - $7.99": {
-        title: "Large Pepperoni Pizza",
-        price: 7.99
-    },
-    "Philly Cheese Sub - $5.99": {
-        title: "Philly Cheese Sub",
-        price: 5.99
-    },
-    "Joyful Pasta - $7.75": {
-        title: "Joyful Pasta",
-        price: 7.75
-    }
-};
-
-
 
