@@ -99,7 +99,7 @@ const dbName = 'rrhhfalabella';
           assert.equal(err, null);
          //console.log(docs)
          arreglo= docs;
-        // console.log(arreglo);
+        //console.log(arreglo);
          return resolve(arreglo)
         });
    

@@ -130,13 +130,13 @@ console.log("valor de continuar: "+dc.result.index);
 var now =  moment();
 var inicio =  moment(now).isoWeekday((dc.result.index)+1).format("DD/MM/YYYY");
 console.log(inicio);
-var tarjeta=await query.llamardia(inicio);
+var tarjeta=await query.buscarMenuDia(inicio);
 
 var ArrayHeroCard = [];
 var self=this;
 var contador=1;
 //console.log(ArrayHeroCard);
-tarjeta['recordset'].forEach(function(value){
+tarjeta.forEach(function(value){
     //console.log(contador);
    // console.log(value['Id']);
     //console.log(value['titulo']);
@@ -362,15 +362,15 @@ tarjeta.forEach(function(value){
         const dc = await this.dialogs.createContext(turnContext);
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         if (turnContext.activity.type === ActivityTypes.Message) {
-            console.log('cantidad ');
+            //console.log('cantidad ');
             //console.log(turnContext.activity.membersAdded.length);
-            console.log('------------------------');
-            console.log(turnContext);
+            //console.log('------------------------');
+           // console.log(turnContext);
             // Create dialog context
            // const dc = await this.dialogs.createContext(turnContext);
 
            //const resultado = await dc.continueDialog();
-           console.log("valor in");
+           //console.log("valor in");
            //console.log(resultado);
         
             // Continue the current dialog
@@ -380,13 +380,13 @@ tarjeta.forEach(function(value){
 
             // Show menu if no response sent
             if (!turnContext.responded) {
-                console.log("no responde");
+                //console.log("no responde");
                 //console.log(turnContext);
                 //await turnContext.sendActivity('Bienvenido al bot de RRHH4');
                 
                 const userName = await this.userName.get(dc.context, null);
-                console.log("usuario");
-                console.log(userName);
+                //console.log("usuario");
+                //console.log(userName);
                // console.log("usuario: "+userName);
                 if (userName) {
                     //await dc.beginDialog(HELLO_USER);
