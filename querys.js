@@ -80,8 +80,8 @@ const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
  
 
-const password = encodeURIComponent('sLOerUXRLt1yjJGBkdDziv6x02o6IVEffiLI9U95UlOwLiH2PugjduL0unLH3sBGe4oHoQTISNLzaUY3NOofKw==');
-const url = `mongodb://basecomida2:${password}@basecomida2.documents.azure.com:10255/?ssl=true&replicaSet=globaldb`;
+const password = encodeURIComponent('oKiDlizqi5aEUcenOp2IKgLbHRTGX1iLc1aIAnaYtu9meMFDzSTmHdSkoqJPVg7joXIBmvJ9JY3BUmLsNlt3eg==');
+const url = `mongodb://falabellarrhh:${password}@falabellarrhh.documents.azure.com:10255/?ssl=true&replicaSet=globaldb`;
 const dbName = 'rrhhfalabella';
 
  function buscarMenuDia(varFecha)
