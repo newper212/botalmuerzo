@@ -111,46 +111,19 @@ class AbogaBot {
 
     async askForOpcionSemanal(dc)
     {
-        console.log('regresa al inicio');
-    /*    var now = moment();
-var inicio = moment(now).startOf('week').isoWeekday(1);
-var final = moment(now).startOf('week').isoWeekday(5);
-var monday = now.clone().weekday(1);
-var friday = now.clone().weekday(5);
-var isNowWeekday = now.isBetween(monday, friday, null, '[]');
-
-console.log(`beg: ${inicio}`);
-console.log(`fin: ${final}`);
-console.log(`now: ${now}`);
-console.log(`monday: ${monday}`);
-console.log(`friday: ${friday}`);
-console.log(`is now between monday and friday: ${isNowWeekday}`);
-*/
-console.log("valor de continuar: "+dc.result.index);
+ 
 var now =  moment();
-var inicio =  moment(now).isoWeekday((dc.result.index)+1).format("DD/MM/YYYY");
-console.log(inicio);
-var tarjeta=await query.buscarMenuDia(inicio);
-
+var tarjeta=await query.buscarMenuDia(dc.result.value);
+//console.log(tarjeta);
 var ArrayHeroCard = [];
 var self=this;
 var contador=1;
-//console.log(ArrayHeroCard);
 tarjeta.forEach(function(value){
-    //console.log(contador);
-   // console.log(value['Id']);
-    //console.log(value['titulo']);
-    ArrayHeroCard.push(self.createHeroCard(contador,value['titulo'],value['descripcion'],value['url']));
+    ArrayHeroCard.push(self.createHeroCard(contador,value['plato fondo'],value['entrada'],value['postre'],value['refresco'],value['url']));
     contador++;
   });
 
 
-//console.log('datos tarjeta: ');
-//console.log(ArrayHeroCard);
-//console.log(tarjeta['recordset'].length);
-//console.log(tarjeta['recordset']);
-//console.log(`beg: ${inicio}`);
-//console.log(ArrayHeroCard.length);
         if(ArrayHeroCard.length>0)
         await dc.context.sendActivity({ attachments: ArrayHeroCard });
         else
@@ -161,7 +134,7 @@ tarjeta.forEach(function(value){
             retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             choices: CardFactory.actions([{title:"1",value:"SI"},{title:"2",value:"NO"}])
         });
-       // return await dc.replaceDialog(MENU_SEMANAL);
+      
     }
 
 
@@ -235,7 +208,7 @@ tarjeta.forEach(function(value){
             prompt: 'Elija un día del menú',
             retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             choices: CardFactory.actions([{title:"1",value:"Lunes"},{title:"2",value:"Martes"},
-            {title:"3",value:"Miercoles"},{title:"4",value:"Jueves"},{title:"5",value:"Viernes"}])
+            {title:"3",value:"Miércoles"},{title:"4",value:"Jueves"},{title:"5",value:"Viernes"}])
         });
 
     }
@@ -249,7 +222,7 @@ tarjeta.forEach(function(value){
             prompt: 'Elija un día del menú',
             retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             choices: CardFactory.actions([{title:"1",value:"Lunes"},{title:"2",value:"Martes"},
-            {title:"3",value:"Miercoles"},{title:"4",value:"Jueves"},{title:"5",value:"Viernes"},
+            {title:"3",value:"Miércoles"},{title:"4",value:"Jueves"},{title:"5",value:"Viernes"},
             {title:"6",value:"Sabado"},{title:"5",value:"Domingo"}])
         });
 
@@ -271,13 +244,14 @@ tarjeta.forEach(function(value){
        
      
         
-        console.log(dc.result.index);
+        //console.log(dc.result.index);
         if(dc.result.index==0)
         {
             var now =  moment();
-            var inicio =  moment(now).format("DD/MM/YYYY");
-        console.log('dia actual');
-console.log(inicio);
+           // moment.locale('es');
+            var inicio =  moment(now).locale('es').format("dddd");
+       // console.log('dia actual');
+//console.log(inicio);
 var tarjeta=await query.buscarMenuDia(inicio);
 
 var ArrayHeroCard = [];
@@ -285,15 +259,15 @@ var self=this;
 var contador=1;
 //console.log(ArrayHeroCard);
 tarjeta.forEach(function(value){
-    console.log(contador);
+    //console.log(contador);
    // console.log(value['Id']);
     //console.log(value['titulo']);
-    ArrayHeroCard.push(self.createHeroCard(contador,value['titulo'],value['descripcion'],value['url']));
+    ArrayHeroCard.push(self.createHeroCard(contador,value['plato fondo'],value['entrada'],value['postre'],value['refresco'],value['url']));
     contador++;
   });
 
 
-        console.log('dsdsd');
+        //console.log('dsdsd');
         //await dc.context.sendActivity({ attachments: [this.createHeroCard(),this.createHeroCard2()] });
         if(ArrayHeroCard.length>0)
         await dc.context.sendActivity({ attachments: ArrayHeroCard });
@@ -443,10 +417,10 @@ tarjeta.forEach(function(value){
  */
     }
 
-    createHeroCard(posicion,titulo,descripcion,url) {
+    createHeroCard(posicion,plato_fondo,entrada,postre,refresco,url) {
         return CardFactory.heroCard(
-            'Menu ' + posicion+ ': '+ titulo,
-            descripcion,
+            'Menu ' + posicion+ ': '+ plato_fondo,
+            plato_fondo+', '+entrada+', '+postre+' y '+refresco,
             CardFactory.images([url])
     
         );
