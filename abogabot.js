@@ -13,6 +13,8 @@ const HELLO_USER = 'hello_user';
 const BIENVENIDO = 'bienvenido';
 const INICIO='inicio';
 const MENU_SEMANAL='menusemanal';
+const MENU_INICIO='menuinicio';
+const MENU_PAGO='menupago';
 const DESPEDIDA='despedida';
 
 
@@ -27,6 +29,7 @@ const CONTINUAR_PROMPT = 'continuarPrompt';
 
 const SEMANAL_CONTINUAR_PROMPT='semanalContinuarPrompt';
 
+const  myData = ['01/01/2019','01/02/2019','01/03/2019','01/04/2019','28/05/2019','27/06/2019','26/07/2019','28/08/2019','26/09/2019','28/10/2019','27/11/2019','27/12/2019']; 
 
 class AbogaBot {
     
@@ -68,14 +71,31 @@ class AbogaBot {
         menuSeguirSemanal.style=ListStyle.heroCard;
         this.dialogs.add(menuSeguirSemanal);
 
+        
+
         // Create a dialog that asks the user for their name.
 
         this.dialogs.add(new WaterfallDialog(INICIO, [
+            this.MostrarOpcionesGenerales.bind(this),
+            this.askForOpcionGeneral.bind(this),
+            //this.WelcometoBot.bind(this),
+            //this.askForDNI.bind(this),
+            //this.askForMenuContinuar.bind(this)
+            
+        ]));
+
+        this.dialogs.add(new WaterfallDialog(MENU_INICIO,[
             this.WelcometoBot.bind(this),
             this.askForDNI.bind(this),
             this.askForMenuContinuar.bind(this)
-            
         ]));
+
+        this.dialogs.add(new WaterfallDialog(MENU_PAGO,[
+            this.showMostrar.bind(this),
+            this.askforMenuPago.bind(this)
+        ]));
+
+
 
         this.dialogs.add(new WaterfallDialog(MENU_SEMANAL, [
             this.MenuSemanalBot.bind(this),
@@ -149,6 +169,24 @@ tarjeta.forEach(function(value){
     dc.prompt(DESPEDIDA,'Gracias por usar el bot.');
    }
 
+   async showMostrar(dc)
+   {
+       console.log(myData);
+       console.log(moment().month());
+       var mesPos=(moment().month());
+       console.log('32432423');
+       console.log(mesPos);
+       console.log('asdsad');
+       await dc.context.sendActivity('El día de pago para el mes actual es: '+myData[mesPos]);
+       return await dc.prompt(CONTINUAR_PROMPT, {
+        prompt: '¿Desea regresar al menu principal?',
+        retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
+        choices: CardFactory.actions([{title:"1",value:"SI"},{title:"2",value:"NO"}])
+    });
+
+
+   }
+
     async WelcometoBot(dc)
     {
 
@@ -158,12 +196,26 @@ tarjeta.forEach(function(value){
          return await dc.prompt(MENU_PROMPT, {
             prompt: 'Por favor, elige una opción',
             retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
-            choices: CardFactory.actions([{title:"1",value:"Menú del Día"},{title:"2",value:"Menú de la Semana"}])
+            choices: CardFactory.actions([{title:"1",value:"Menú del Día"},{title:"2",value:"Menú de la Semana"},{title:"3",value:"Salir"}])
         });
 
     }
 
 
+    async MostrarOpcionesGenerales(dc)
+    {
+
+      
+        // dc.prompt("SALUDOS",'Bienvenido al bot de RRHH');
+       // dc.context.sendActivity('Bienvenido al bot de RRHH');
+         return await dc.prompt(MENU_PROMPT, {
+            prompt: 'Por favor, elige una opción',
+            retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
+            choices: CardFactory.actions([{title:"1",value:"Menús"},{title:"2",value:"Fecha de Pago"}])
+        });
+
+    }
+    
 
     async askForMenuContinuarSemanal(dc)
     {
@@ -186,16 +238,31 @@ tarjeta.forEach(function(value){
         console.log("valor de continuar: "+dc.result.index);
         if(dc.result.index==0)
         {
+            return await dc.replaceDialog(MENU_INICIO);
+        }
+        else
+        {
+           // await dc.context.sendActivity('Gracias por visitarme.');
+           //return await dc.endDialog();
+            return await dc.replaceDialog(INICIO);
+        }
+    }
+
+    async askforMenuPago(dc)
+    {
+
+        console.log("valor de continuar: "+dc.result.index);
+        if(dc.result.index==0)
+        {
             return await dc.replaceDialog(INICIO);
         }
         else
         {
             await dc.context.sendActivity('Gracias por visitarme.');
            return await dc.endDialog();
+           // return await dc.replaceDialog(INICIO);
         }
     }
-
-
     
 
 
@@ -239,6 +306,21 @@ tarjeta.forEach(function(value){
         await dc.prompt(DNI_PROMPT, `Por favor, podrias indicarme tu DNI?`);
     }
 
+
+    async askForOpcionGeneral(dc)
+    {
+        if(dc.result.index==0)
+        {
+            return await dc.beginDialog(MENU_INICIO);   
+        }
+        else
+        {
+
+            return await dc.beginDialog(MENU_PAGO);   
+
+        }
+    }
+
     async askForDNI(dc)
     {
        
@@ -280,9 +362,14 @@ tarjeta.forEach(function(value){
             choices: CardFactory.actions([{title:"1",value:"SI"},{title:"2",value:"NO"}])
         });
         }
-        else
+        else if(dc.result.index==1)
         {
             return await dc.beginDialog(MENU_SEMANAL);   
+        }
+        else
+        {
+           // return await dc.beginDialog(MENU_SEMANAL);
+           return await dc.replaceDialog(INICIO);
         }
         
         //await dc.prompt(DNI_PROMPT, `Por favor, podrias indicarme tu DNI?`);
@@ -301,7 +388,7 @@ tarjeta.forEach(function(value){
         return await stepContext.prompt(MENU_PROMPT, {
             prompt: 'Por favor, elige una opción',
             retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
-            choices: ['Menu del dia', 'Menu de la semana']
+            choices: ['Menu del dia', 'Menu de la semana','Salir']
         });
 
         
@@ -370,7 +457,7 @@ tarjeta.forEach(function(value){
                 
                   // savedAddress = session.message.address;
                    //console.log(dc);
-                   await turnContext.sendActivity('Hola, soy Amanda elige una opción del menú');
+                   await turnContext.sendActivity('Hola, soy Amanda tu asistente virtual');
                        
                         await dc.beginDialog(INICIO);
                 }
