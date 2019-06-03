@@ -29,7 +29,9 @@ const CONTINUAR_PROMPT = 'continuarPrompt';
 
 const SEMANAL_CONTINUAR_PROMPT='semanalContinuarPrompt';
 
-const  myData = ['01/01/2019','01/02/2019','01/03/2019','01/04/2019','28/05/2019','27/06/2019','26/07/2019','28/08/2019','26/09/2019','28/10/2019','27/11/2019','27/12/2019']; 
+//const  myData = ['01/01/2019','01/02/2019','01/03/2019','01/04/2019','28/05/2019','27/06/2019','26/07/2019','28/08/2019','26/09/2019','28/10/2019','27/11/2019','27/12/2019']; 
+
+const  myData = [{"dia":"Lunes","fecha":"01/01/2019"},{"dia":"Lunes","fecha":"01/02/2019"},{"dia":"Lunes","fecha":"01/03/2019"},{"dia":"Lunes","fecha":"01/04/2019"},{"dia":"Martes","fecha":"28/05/2019"},{"dia":"Jueves","fecha":"27/06/2019"},{"dia":"Viernes","fecha":"26/07/2019"},{"dia":"Miércoles","fecha":"28/08/2019"},{"dia":"Jueves","fecha":"26/09/2019"},{"dia":"Lunes","fecha":"28/10/2019"},{"dia":"Miércoles","fecha":"27/11/2019"},{"dia":"Viernes","fecha":"27/12/2019"}]; 
 
 class AbogaBot {
     
@@ -171,13 +173,13 @@ tarjeta.forEach(function(value){
 
    async showMostrar(dc)
    {
-       console.log(myData);
-       console.log(moment().month());
+      // console.log(myData[0]);
+       //console.log(moment().month());
        var mesPos=(moment().month());
        console.log('32432423');
-       console.log(mesPos);
-       console.log('asdsad');
-       await dc.context.sendActivity('El día de pago para el mes actual es: '+myData[mesPos]);
+      //console.log(myData[mesPos].dia);
+       //console.log('asdsad');
+       await dc.context.sendActivity('El día de pago para el mes actual es: **'+myData[mesPos].dia+ " "+myData[mesPos].fecha+'**');
        return await dc.prompt(CONTINUAR_PROMPT, {
         prompt: '¿Desea regresar al menu principal?',
         retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
