@@ -1,7 +1,7 @@
 const restify=require('restify');
 const { MyBot } = require('./bot');
 const { AbogaBot } = require('./abogabot');
-const { BotFrameworkAdapter, UserState, MemoryStorage,ConversationState } = require('botbuilder');
+const { BotFrameworkAdapter, UserState, MemoryStorage,ConversationState,PrivateConversationState} = require('botbuilder');
 
 const conversationstate= new ConversationState(new MemoryStorage());
 
@@ -14,10 +14,10 @@ var adapter=new BotFrameworkAdapter(
 const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 userState = new UserState(memoryStorage);
-
+privateConversationState=new PrivateConversationState(memoryStorage);
 
 //const bot = new MyBot(conversationState, userState);
-const abogbot = new AbogaBot(conversationState, userState);
+const abogbot = new AbogaBot(conversationState, userState,privateConversationState);
 
 let server=restify.createServer();
 server.listen(process.env.port||process.env.PORT||3978,()=>

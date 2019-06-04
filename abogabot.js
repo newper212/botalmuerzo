@@ -16,6 +16,8 @@ const MENU_SEMANAL='menusemanal';
 const MENU_INICIO='menuinicio';
 const MENU_PAGO='menupago';
 const DESPEDIDA='despedida';
+const LAVADOAUTOS='lavadoautos';
+const PRIVATE_CONVERSATION='private_conversation';
 
 
 const NAME_PROMPT = 'name_prompt';
@@ -23,6 +25,16 @@ const DNI_PROMPT = 'dni_prompt';
 const RECLAMO_PROMPT = 'reclamo_prompt';
 const FECHARECLAMO_PROMPT = 'fechareclamo_prompt';
 const MEDIORECLAMO_PROMPT = 'medioreclamo_prompt';
+
+const HORA_PROMPT='hora_prompt';
+const PLACA_PROMPT='placa_prompt';
+const MODELO_PROMPT='modelo_prompt';
+const COLOR_PROMPT='color_prompt';
+const TIPOLAVADO_PROMPT='tipolavado_prompt';
+const TIPOPAGO_PROMPT='tipopago_prompt';
+const QR_PROMPT='qr_prompt';
+const CONFIRMA_LAVADO_PROMPT='confirma_lavado_prompt';
+const UBICACIONAUTO_PROMPT='ubicacionauto_prompt';
 
 const MENU_PROMPT = 'menuPrompt';
 const CONTINUAR_PROMPT = 'continuarPrompt';
@@ -33,33 +45,64 @@ const SEMANAL_CONTINUAR_PROMPT='semanalContinuarPrompt';
 
 const  myData = [{"dia":"Lunes","fecha":"01/01/2019"},{"dia":"Lunes","fecha":"01/02/2019"},{"dia":"Lunes","fecha":"01/03/2019"},{"dia":"Lunes","fecha":"01/04/2019"},{"dia":"Martes","fecha":"28/05/2019"},{"dia":"Jueves","fecha":"27/06/2019"},{"dia":"Viernes","fecha":"26/07/2019"},{"dia":"Miércoles","fecha":"28/08/2019"},{"dia":"Jueves","fecha":"26/09/2019"},{"dia":"Lunes","fecha":"28/10/2019"},{"dia":"Miércoles","fecha":"27/11/2019"},{"dia":"Viernes","fecha":"27/12/2019"}]; 
 
+
+async function imprimir (valor) {
+    console.log('---impresion---');
+    console.log(valor);
+    console.log('---fin impresion---');
+  }
 class AbogaBot {
     
      /**
      *
      * @param {Object} conversationState
      * @param {Object} userState
+     * @param {Object} privateConversationState
      */
 
-    constructor(conversationState, userState) {
+    constructor(conversationState, userState,privateConversationState) {
         // creates a new state accessor property.
         // See https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors
         this.conversationState = conversationState;
         this.userState = userState;
+        this.privateConversationState=privateConversationState;
 
         this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
 
         this.userName = this.userState.createProperty(USER_NAME_PROP);
 
+        this.privateConversation=this.privateConversationState.createProperty(PRIVATE_CONVERSATION);
+
         this.dialogs = new DialogSet(this.dialogState);
 
         // Add prompts
+
+
+        this.dialogs.add(new TextPrompt(HORA_PROMPT));
+        this.dialogs.add(new TextPrompt(PLACA_PROMPT));
+        this.dialogs.add(new TextPrompt(MODELO_PROMPT));
+        this.dialogs.add(new TextPrompt(COLOR_PROMPT));
+        this.dialogs.add(new TextPrompt(UBICACIONAUTO_PROMPT));
+        this.dialogs.add(new TextPrompt(QR_PROMPT));
+       // this.dialogs.add(new TextPrompt(CONFIRMA_LAVADO_PROMPT));
 
         this.dialogs.add(new TextPrompt(DNI_PROMPT));
         this.dialogs.add(new TextPrompt(BIENVENIDO));
         this.dialogs.add(new TextPrompt(NAME_PROMPT));
         this.dialogs.add(new TextPrompt("SALUDOS"));
         this.dialogs.add(new TextPrompt(DESPEDIDA));
+
+        let tipo_pago=new ChoicePrompt(TIPOPAGO_PROMPT);
+        tipo_pago.style=ListStyle.heroCard;
+        this.dialogs.add(tipo_pago);
+
+        let tipo_lavado=new ChoicePrompt(TIPOLAVADO_PROMPT);
+        tipo_lavado.style=ListStyle.heroCard;
+        this.dialogs.add(tipo_lavado);
+
+        let confirma_lavado=new ChoicePrompt(CONFIRMA_LAVADO_PROMPT);
+        confirma_lavado.style=ListStyle.heroCard;
+        this.dialogs.add(confirma_lavado);
 
         let menu=new ChoicePrompt(MENU_PROMPT);
         menu.style=ListStyle.heroCard;
@@ -76,6 +119,23 @@ class AbogaBot {
         
 
         // Create a dialog that asks the user for their name.
+
+        this.dialogs.add(new WaterfallDialog(LAVADOAUTOS,
+            [
+                this.promptForHora.bind(this),
+                this.promptForPlaca.bind(this),
+                this.promptForModelo.bind(this),
+                this.promptForColor.bind(this),
+                this.promptTipoLavado.bind(this),
+                this.askFortipoLavado.bind(this),
+                this.promptTipoPago.bind(this),
+                this.promptConfirmarLavadoAuto.bind(this),
+                this.askForConfirmacionLavado.bind(this)
+                //this.promptForMostrarQR.bind(this),
+            ]
+
+        
+            ));
 
         this.dialogs.add(new WaterfallDialog(INICIO, [
             this.MostrarOpcionesGenerales.bind(this),
@@ -116,9 +176,146 @@ class AbogaBot {
         ]));
     }
 
+    async promptForHora(dc) {
+        return await dc.prompt(HORA_PROMPT, `¿A qué hora deseas que este el lavado de tu auto?`);
+    }
 
 
+    async promptForPlaca(dc) {
+       
 
+        const user=await this.privateConversation.get(dc.context, {});
+        user.hora=dc.result;
+        await this.privateConversation.set(dc.context, user); 
+        await dc.prompt(PLACA_PROMPT, `¿Cuál es la placa?`);
+    }
+
+    async promptForModelo(dc){
+        const user=await this.privateConversation.get(dc.context, {});
+        user.placa=dc.result;
+        await this.privateConversation.set(dc.context, user); 
+        await dc.prompt(MODELO_PROMPT, `¿Cuál es el modelo?`);
+    }
+
+    async promptForColor(dc){
+        const user=await this.privateConversation.get(dc.context, {});
+        user.modelo=dc.result;
+        await this.privateConversation.set(dc.context, user); 
+        await dc.prompt(COLOR_PROMPT, `¿Cuál es el color?`);
+    }
+
+    async promptTipoLavado(dc)
+    {
+        const user=await this.privateConversation.get(dc.context, {});
+        user.color=dc.result;
+        await this.privateConversation.set(dc.context, user); 
+        return await dc.prompt(TIPOLAVADO_PROMPT, {
+            prompt: '¿Qué tipo de lavado es?',
+            retryPrompt: 'Disculpa, Por favor elige una opción.',
+            choices: CardFactory.actions([{title:"1",value:"Externo"},{title:"2",value:"Interno"}])
+        });
+    }
+
+    async promptTipoPago(dc)
+    {
+        const user=await this.privateConversation.get(dc.context, {});
+        
+        //console.log('valor ubicacion: ');
+        //console.log(dc.result);
+        if(dc.result==undefined)
+        user.ubicacion='';
+        else
+        user.ubicacion=dc.result;
+
+        await this.privateConversation.set(dc.context, user); 
+        return await dc.prompt(TIPOPAGO_PROMPT, {
+            prompt: '¿Cómo desea realizar el pago?',
+            retryPrompt: 'Disculpa, Por favor elige una opción.',
+            choices: CardFactory.actions([{title:"1",value:"YAPE"},{title:"2",value:"Efectivo"}])
+        });
+    }
+
+
+    async promptConfirmarLavadoAuto(dc)
+    {
+        let texto_mostrar='';
+
+        const user=await this.privateConversation.get(dc.context, {});
+        user.tipopago=dc.result.value;
+        await this.privateConversation.set(dc.context, user); 
+        
+        if(user.ubicacion=='')
+        await dc.context.sendActivity(`Tu carro con placa ${ user.placa }, modelo ${ user.modelo }, color  ${ user.color } tendrá el servicio de lavado ${ user.tipolavado } y el medio de pago es ${ user.tipopago }, será atendido antes de las ${ user.hora }.`);
+        else
+        await dc.context.sendActivity(`Tu carro con placa ${ user.placa }, modelo ${ user.modelo }, color  ${ user.color } tendrá el servicio de lavado ${ user.tipolavado }, el medio de pago es ${ user.tipopago } y las llaves se recogerán según lo indicado **${ user.ubicacion }** será atendido antes de las ${ user.hora }.`);
+        
+
+        
+        return await dc.prompt(CONFIRMA_LAVADO_PROMPT, {
+            prompt: '¿Los datos ingresados son correctos?',
+            retryPrompt: 'Disculpa, Por favor elige una opción.',
+            choices: CardFactory.actions([{title:"1",value:"SI"},{title:"2",value:"NO"}])
+        });
+    
+    }
+
+    async askFortipoLavado(dc)
+    {
+        //console.log(dc.result.value);
+        const user=await this.privateConversation.get(dc.context, {});
+        user.tipolavado=dc.result.value;
+        await this.privateConversation.set(dc.context, user); 
+
+        if(dc.result.index==0)
+        {
+           
+            return await dc.next();
+        }
+        else
+        {
+            await dc.prompt(UBICACIONAUTO_PROMPT, `Por favor, indícame donde podriamos recoger las llaves para realizar el lavado`);
+        }
+    }
+
+    async askForConfirmacionLavado(dc)
+    {
+
+       // console.log("valor de continuar: "+dc.result.index);
+        if(dc.result.index==0)
+        {
+            //return await dc.replaceDialog(INICIO);
+           // await dc.context.sendActivity(`Por favor, realiza el deposito al número 987123724`);
+           
+            
+            
+
+            const user=await this.privateConversation.get(dc.context, {});
+
+            if(user.tipopago=='YAPE')
+            {
+                await dc.context.sendActivity({ attachments: [this.createHeroCardQR()] });
+            }
+            await dc.context.sendActivity('Gracias por visitarme.');
+            return await dc.endDialog();
+        }
+        else
+        {
+            return await dc.replaceDialog(LAVADOAUTOS);
+        }
+    }
+
+    async promptForMostrarQR(dc){
+        const user=await this.privateConversation.get(dc.context, {});
+        user.color=dc.result;
+        await this.privateConversation.set(dc.context, user); 
+        await dc.context.sendActivity(`Tu carro con placa ${ user.placa }, modelo ${ user.modelo } y color  ${ dc.result }, sera lavado antes de las ${ user.hora }.`);
+        await dc.context.sendActivity(`Por favor, realiza el deposito al número 987123724`);
+        await dc.context.sendActivity({ attachments: [this.createHeroCardQR()] });
+        //await dc.prompt(COLOR_PROMPT, `¿Cuál es el color?`);
+    }
+
+    
+      
     async promptContinuar(dc) {
 
         return await dc.prompt(CONTINUAR_PROMPT, {
@@ -213,7 +410,7 @@ tarjeta.forEach(function(value){
          return await dc.prompt(MENU_PROMPT, {
             prompt: 'Por favor, elige una opción',
             retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
-            choices: CardFactory.actions([{title:"1",value:"Menús"},{title:"2",value:"Fecha de Pago"}])
+            choices: CardFactory.actions([{title:"1",value:"Menús"},{title:"2",value:"Fecha de Pago"},{title:"3",value:"Lavado de Autos"}])
         });
 
     }
@@ -315,11 +512,15 @@ tarjeta.forEach(function(value){
         {
             return await dc.beginDialog(MENU_INICIO);   
         }
-        else
+        else if(dc.result.index==1)
         {
 
             return await dc.beginDialog(MENU_PAGO);   
 
+        }
+        else
+        {
+            return await dc.beginDialog(LAVADOAUTOS);   
         }
     }
 
@@ -485,7 +686,7 @@ tarjeta.forEach(function(value){
             }
         }*/
 
-
+        await this.privateConversationState.saveChanges(turnContext);
         // Save changes to the user name.
         await this.userState.saveChanges(turnContext);
 
@@ -512,6 +713,14 @@ tarjeta.forEach(function(value){
             plato_fondo+', '+entrada+', '+postre+' y '+refresco,
             CardFactory.images([url])
     
+        );
+    }
+
+    createHeroCardQR() {
+        return CardFactory.heroCard(
+            'Codigo QR YAPE',
+            CardFactory.images(['http://www.codigos-qr.com/qr/php/qr_img.php?d=https%3A%2F%2Fwww.falabella.com.pe%2Ffalabella-pe%2F&s=6&e=m'])
+            
         );
     }
   
