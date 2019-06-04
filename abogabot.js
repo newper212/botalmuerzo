@@ -177,7 +177,7 @@ class AbogaBot {
     }
 
     async promptForHora(dc) {
-        return await dc.prompt(HORA_PROMPT, `¿A qué hora deseas que este el lavado de tu auto?`);
+        return await dc.prompt(HORA_PROMPT, `¿A qué hora deseas que esté el lavado de tu auto?`);
     }
 
 
@@ -719,7 +719,7 @@ tarjeta.forEach(function(value){
     createHeroCardQR() {
         return CardFactory.heroCard(
             'Codigo QR YAPE',
-            CardFactory.images(['http://www.codigos-qr.com/qr/php/qr_img.php?d=https%3A%2F%2Fwww.falabella.com.pe%2Ffalabella-pe%2F&s=6&e=m'])
+            CardFactory.images(['http://www.codigos-qr.com/qr/php/qr_img.php?d=https%3A%2F%2Fwww.falabella.com.pe%2Ffalabella-pe%2F&s=4&e=m'])
             
         );
     }
