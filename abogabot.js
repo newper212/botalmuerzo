@@ -410,7 +410,9 @@ tarjeta.forEach(function(value){
          return await dc.prompt(MENU_PROMPT, {
             prompt: 'Por favor, elige una opción',
             retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
-            choices: CardFactory.actions([{title:"1",value:"Menús"},{title:"2",value:"Fecha de Pago"},{title:"3",value:"Lavado de Autos"}])
+            //choices: CardFactory.actions([{title:"1",value:"Menús"},{title:"2",value:"Fecha de Pago"},{title:"3",value:"Lavado de Autos"}])
+            choices: CardFactory.actions([{title:"1",value:"Menús"},{title:"2",value:"Fecha de Pago"}])
+
         });
 
     }
@@ -512,7 +514,11 @@ tarjeta.forEach(function(value){
         {
             return await dc.beginDialog(MENU_INICIO);   
         }
-        else if(dc.result.index==1)
+        else
+        {
+            return await dc.beginDialog(MENU_PAGO);   
+        }
+       /* else if(dc.result.index==1)
         {
 
             return await dc.beginDialog(MENU_PAGO);   
@@ -521,7 +527,7 @@ tarjeta.forEach(function(value){
         else
         {
             return await dc.beginDialog(LAVADOAUTOS);   
-        }
+        }*/
     }
 
     async askForDNI(dc)
