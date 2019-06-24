@@ -95,8 +95,9 @@ const dbName = 'rrhhfalabella';
     const db = client.db(dbName);
     const collection = db.collection('almuerzo');
     //varFecha='/'+varFecha+'/i'
-    console.log(varFecha);
-     collection.find({dia:   {'$regex': varFecha,$options:'i'}  }).toArray( function(err, docs) {
+   // console.log(varFecha.toUpperCase());
+   // var mayus=varFecha.toUpperCase();
+     collection.find({DIA:   varFecha.toUpperCase()  }).toArray( function(err, docs) {
           assert.equal(err, null);
          //console.log(docs)
          arreglo= docs;

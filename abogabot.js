@@ -338,7 +338,7 @@ var ArrayHeroCard = [];
 var self=this;
 var contador=1;
 tarjeta.forEach(function(value){
-    ArrayHeroCard.push(self.createHeroCard(contador,value['plato fondo'],value['entrada'],value['postre'],value['refresco'],value['url']));
+    ArrayHeroCard.push(self.createHeroCard(contador,value['PLATO DE FONDO'],value['ENTRADA'],value['POSTRE'],value['REFRESCO'],value['URL']));
     contador++;
   });
 
@@ -553,7 +553,7 @@ tarjeta.forEach(function(value){
     //console.log(contador);
    // console.log(value['Id']);
     //console.log(value['titulo']);
-    ArrayHeroCard.push(self.createHeroCard(contador,value['plato fondo'],value['entrada'],value['postre'],value['refresco'],value['url']));
+    ArrayHeroCard.push(self.createHeroCard(contador,value['PLATO DE FONDO'],value['ENTRADA'],value['POSTRE'],value['REFRESCO'],value['URL']));
     contador++;
   });
 
