@@ -775,9 +775,9 @@ tarjeta.forEach(function(value){
     getInternetAttachment() {
         // NOTE: The contentUrl must be HTTPS.
         return {
-            name: 'Manual aplicación viajes.pdf',
+            name: 'ManualViajes.pdf',
             contentType: 'application/pdf',
-            contentUrl: 'https://falabellaspeech.azurewebsites.net/Manual%20aplicaci%C3%B3n%20viajes.pdf'
+            contentUrl: 'https://falabellaspeech.azurewebsites.net/ManualViajes.pdf'
         };
     }
   
