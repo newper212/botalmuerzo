@@ -18,7 +18,7 @@ const MENU_PAGO='menupago';
 const DESPEDIDA='despedida';
 const LAVADOAUTOS='lavadoautos';
 const PRIVATE_CONVERSATION='private_conversation';
-
+const MENU_VIAJES='menuviaje';
 
 const NAME_PROMPT = 'name_prompt';
 const DNI_PROMPT = 'dni_prompt';
@@ -156,6 +156,12 @@ class AbogaBot {
             this.showMostrar.bind(this),
             this.askforMenuPago.bind(this)
         ]));
+
+        this.dialogs.add(new WaterfallDialog(MENU_VIAJES,[
+            this.showMostrarPdfViaje.bind(this),
+            this.askforMenuViaje.bind(this)
+        ]));
+
 
 
 
@@ -386,6 +392,19 @@ tarjeta.forEach(function(value){
 
    }
 
+
+   async showMostrarPdfViaje(dc)
+   {
+       await dc.context.sendActivity({ attachments: [this.getInternetAttachment()] });
+       return await dc.prompt(CONTINUAR_PROMPT, {
+        prompt: '¿Desea regresar al menu principal?',
+        retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
+        choices: CardFactory.actions([{title:"1",value:"SI"},{title:"2",value:"NO"}])
+    });
+
+
+   }
+
     async WelcometoBot(dc)
     {
 
@@ -411,7 +430,7 @@ tarjeta.forEach(function(value){
             prompt: 'Por favor, elige una opción',
             retryPrompt: 'Disculpa, Por favor elige una opción de la lista.',
             //choices: CardFactory.actions([{title:"1",value:"Menús"},{title:"2",value:"Fecha de Pago"},{title:"3",value:"Lavado de Autos"}])
-            choices: CardFactory.actions([{title:"1",value:"Menús"},{title:"2",value:"Fecha de Pago"}])
+            choices: CardFactory.actions([{title:"1",value:"Menús"},{title:"2",value:"Fecha de Pago"},{title:"3",value:"Manual de viajes"}])
 
         });
 
@@ -453,6 +472,22 @@ tarjeta.forEach(function(value){
     {
 
         console.log("valor de continuar: "+dc.result.index);
+        if(dc.result.index==0)
+        {
+            return await dc.replaceDialog(INICIO);
+        }
+        else
+        {
+            await dc.context.sendActivity('Gracias por visitarme.');
+           return await dc.endDialog();
+           // return await dc.replaceDialog(INICIO);
+        }
+    }
+
+    async askforMenuViaje(dc)
+    {
+
+        //console.log("valor de continuar: "+dc.result.index);
         if(dc.result.index==0)
         {
             return await dc.replaceDialog(INICIO);
@@ -514,9 +549,16 @@ tarjeta.forEach(function(value){
         {
             return await dc.beginDialog(MENU_INICIO);   
         }
-        else
+        else if(dc.result.index==1)
         {
             return await dc.beginDialog(MENU_PAGO);   
+        }
+        else
+        {
+            return await dc.beginDialog(MENU_VIAJES);
+           // return await dc.context.sendActivity({ attachments: [this.createHeroCardQR()] });
+            
+             //return await dc.beginDialog(INICIO);   
         }
        /* else if(dc.result.index==1)
         {
@@ -728,6 +770,15 @@ tarjeta.forEach(function(value){
             CardFactory.images(['http://www.codigos-qr.com/qr/php/qr_img.php?d=https%3A%2F%2Fwww.falabella.com.pe%2Ffalabella-pe%2F&s=4&e=m'])
             
         );
+    }
+
+    getInternetAttachment() {
+        // NOTE: The contentUrl must be HTTPS.
+        return {
+            name: 'Manual aplicación viajes.pdf',
+            contentType: 'application/pdf',
+            contentUrl: 'https://falabellaspeech.azurewebsites.net/Manual%20aplicaci%C3%B3n%20viajes.pdf'
+        };
     }
   
 
